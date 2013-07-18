@@ -1,8 +1,8 @@
+# Docker file used for building Amazon AMIs
 FROM ubuntu:12.04
 MAINTAINER John Costa <john.costa@gmail.com>
 
 RUN apt-get update
-#RUN apt-get install -y dkms
 RUN apt-get install -y python-software-properties
 RUN add-apt-repository -y ppa:gophers/go 
 RUN apt-get update

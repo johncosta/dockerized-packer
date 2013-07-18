@@ -1,14 +1,15 @@
 {
   "_comment" : "Ubuntu Server 13.04 AMI ID ami-c30360aa (x86_64)",
   "builders": [{
-    "type": "virtualbox",
-    "guest_os_type": "Ubuntu_64",
-    "iso_url": "http://releases.ubuntu.com/13.04/ubuntu-13.04-server-amd64.iso", 
-    "iso_md5": "7d335ca541fc4945b674459cde7bffb9",
-    "ssh_username": "docker",
-    "ssh_wait_timeout": "30s",
-    "shutdown_command": "shutdown -P now"
-  }], 
+  "type": "virtualbox",
+  "guest_os_type": "Ubuntu_64",
+  "iso_url": "http://releases.ubuntu.com/12.04/ubuntu-12.04.2-server-amd64.iso",
+  "iso_md5": "af5f788aee1b32c4b2634734309cc9e9",
+  "ssh_username": "packer",
+  "ssh_wait_timeout": "30s",
+  "shutdown_command": "shutdown -P now"
+}
+  ], 
   "provisioners": [{
     "type": "shell",
     "inline": [
