@@ -24,7 +24,7 @@ are from this perspective.
 
 4) Build an image or use the pre-built one
 
-`
+Either `docker pull johncosta/dockerized-packer` or `cd /var/src/projects/dockerized-packer/aws; docker build - < Dockerfile`
 
 #### Configuration
 
@@ -57,10 +57,13 @@ docker run -e=AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID -e=AWS_SECRET_ACCESS_KEY=$AWS
 ntpdate ntp.ubuntu.com
 
 2) Error creating temporary keypair
+
 ##### Issue
+
 2013/07/09 16:36:51 ui error: Build 'amazon-ebs' errored: Error creating temporary keypair: Get https://<omitted>: x509: failed to load system roots and no roots provided
 
 ##### Solution
+
 Installed golang into the image
 
 ### Digital Ocean
