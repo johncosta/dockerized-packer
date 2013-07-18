@@ -75,7 +75,9 @@ TODO
 To generate these, I've explored packer's features.  However, I have yet to be successful.  See: https://github.com/mitchellh/packer/issues/193
 
 
-TODO: 
+TODO:
+  * where/how should artifcats be made available?
+  * is there a process to publish AMIs?
   * is to build the image from a local build of docker, instead of the .deb
 
 [0]: http://docker.io
