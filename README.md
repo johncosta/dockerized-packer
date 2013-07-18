@@ -50,11 +50,12 @@ docker run -e=AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID -e=AWS_SECRET_ACCESS_KEY=$AWS
 1) Error creating temporary keypair
 
 ##### Issue
+
 ==> amazon-ebs: Error creating temporary keypair: Request has expired. Timestamp date is 2013-07-17T08:42:34Z (RequestExpired)
 
 ##### Solution
-# do this in the environment that's running your containers
-ntpdate ntp.ubuntu.com
+
+Update your VM's system datetime: `ntpdate ntp.ubuntu.com`
 
 2) Error creating temporary keypair
 
