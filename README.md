@@ -74,6 +74,31 @@ TODO
 
 To generate these, I've explored packer's features.  However, I have yet to be successful.  See: https://github.com/mitchellh/packer/issues/193
 
+#### Installation
+
+1) Checkout the veewee code base; this has the templates.
+
+`git clone https://github.com/jedi4ever/veewee.git`
+
+2) Install veewee-to-packer: https://github.com/mitchellh/veewee-to-packer
+
+3) Convert the template your looking to use:
+
+`veewee-to-packer /Users/jcosta/projects/veewee/templates/ubuntu-12.04.2-server-amd64-netboot/definition.rb`
+
+This produces an output directory with your packer artifacts: /Users/jcosta/projects/veewee/output
+
+4) Modify the provisioners section of the template.json file to have the full path of for the scripts listed. See [issue #54][1]
+
+`"/full/path/to/scripts/postinstall.sh"`
+
+5) Modify each builder definition to include an "iso_md5" key/value pair.
+
+`"iso_md5": "1278936cb0ee9d9a32961dd7743fa75c",`
+
+6) Now use packer to build the image
+
+`./packer build /full/path/to/output/template.json`
 
 TODO:
   * where/how should artifcats be made available?
@@ -81,3 +106,4 @@ TODO:
   * is to build the image from a local build of docker, instead of the .deb
 
 [0]: http://docker.io
+[1]: https://github.com/mitchellh/packer/issues/54
