@@ -1,28 +1,25 @@
 #!/usr/bin/env sh
 
-# http://stackoverflow.com/questions/12438946/e-unable-to-locate-package-git-ubuntu-on-ec2
-# stupid loop to get around ubuntu package mirror problems
+# The purpose of this script is to build revision specific version of docker.  
+
+export DOCKER_COMMIT_ID=d67d5dd
+
+# Update image dependencies
 for attempt in 1 2 3 4 5; do
   if [ ! -z "`which git`" ]; then
     break
   fi
   echo "Trying to install git, attempt $attempt"
   sudo apt-get update -yq --fix-missing
-  sudo apt-get install -yq git curl
+  sudo apt-get install -yq git curl linux-image-extra-virtual lxc
 done
 
-
+# Install go
 curl -s https://go.googlecode.com/files/go1.1.1.linux-amd64.tar.gz | sudo tar -v -C /usr/local -xz
+
 # will need to sort out the correct permissions
 sudo chown -R root:adm /usr/local/go
 sudo chmod -R 777 /usr/local/go
-
-#cat <<'EOF' >> ~/.bashrc 
-#export PATH=$PATH:/usr/local/go/bin
-#export GOROOT=/usr/local/go
-#export GOPATH=/go
-#export CGO_ENABLED=0
-#EOF
 
 . ~/.bashrc
 
@@ -45,7 +42,23 @@ printenv > ~/temp
 
 env - GOROOT=/usr/local/go GOPATH=/go CGO_ENABLED=0 PATH=$PATH:/usr/local/go/bin /bin/bash -c 'cd /go/src/github.com/dotcloud/docker/docker && /usr/local/go/bin/go install -ldflags "-X main.GITCOMMIT '??' -d -w"'
 
-cat <<'EOF' >> ~/.bashrc
-export PATH=$PATH:/usr/local/go/bin:/go/bin
+#cat <<'EOF' >> ~/.bashrc
+#export PATH=$PATH:/usr/local/go/bin:/go/bin
+#EOF
+
+# Create the upstart config
+cat <<'EOF' >> ~/docker.upstart
+description     "Run docker"
+
+start on filesystem or runlevel [2345]
+stop on runlevel [!2345]
+
+respawn
+
+exec /usr/bin/docker -d
 EOF
+
+# install executeable
+sudo install -m 0755 /go/bin/docker /usr/bin
+sudo install -o root -m 0644 ~/docker.upstart /etc/init/docker.conf
 
